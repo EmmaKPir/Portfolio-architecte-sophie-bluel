@@ -1,6 +1,7 @@
 const allWorks = new Set()
 const allCategories = new Set()
 const gallery = document.querySelector(".gallery")
+const filterCategory = document.querySelector("#filter-category")
 
 async function init() {
     const works = await getDatabaseInfo("works")
@@ -74,8 +75,8 @@ function generateImage(filter = "0") {
 --------------------
 --------------------
 
-add filtres html*
-hover filtres, changement background-color & color*
+add filtres html ok
+hover filtres, changement background-color & color ok
 eventListener "click" sur filtre
     remove active class du précédent
     add active class sur le bouton cliquer
@@ -94,27 +95,35 @@ function addFilters() {
     buttonAll.classList.add("filter-button")
     categoryList.appendChild(buttonAll)
     for (const category of allCategories) {
-        buttonAll.setAttribute ("data-cat", category.name);
-        buttonAll.textContent = category.name === "Objets" ? "Objets" : category.name
+        const oneButton = document.createElement("div")
+        oneButton.classList.add("active")
+        oneButton.classList.add("filter-button")
+        oneButton.setAttribute ("data-cat", category.id)
+        oneButton.textContent = category.name === "Objets" ? "Objets" : category.name
+        categoryList.appendChild(oneButton)
     }
     categoryList.appendChild(fragment)
-    filterListener();
+    filterCategory.appendChild(categoryList)
+    filterListener()
 }
 
 function filterListener(){
-    const filtersButtons = document.querySelector(".filter-button")
+    const filtersButtons = document.querySelectorAll(".filter-button")
     for (const button of filtersButtons) {
         button.addEventListener("click", (e) => {
             const id = e.target.dataset.cat
-            const activeButtons = document.querySelectorAll(".filter-buttons div.active")
+            const activeButtons = document.querySelectorAll(".active")
             for (const activeButton of activeButtons) {
                 activeButton.classList.remove("active")
             }
-            id.classList.add("active")
-            const idCat = document.getElementById(category.id)
-            if (idCat == 0) {
-                generateImage(id)
-            }
+            generateImage(id)
         })
     }
 }
+/* 
+--------------------
+--------------------
+--------MODAL-------
+------CONNEXION-----
+--------------------
+*/
