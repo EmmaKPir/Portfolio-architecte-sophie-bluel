@@ -43,12 +43,15 @@ async function getDatabaseInfo(type) {
 */
 
 function generateImage(filter = "0") {
+    gallery.innerHTML = ""
     const fragment = document.createDocumentFragment()
     let works = []
     if(filter == "0"){
         works = allWorks
     } else{
-        works = [...allWorks].filter()
+        filter = parseInt(filter)
+        works = [...allWorks].filter(work => work.categoryId == filter)
+        console.log(works);
     }
     for (const work of works) {
         // création des éléments
@@ -96,6 +99,7 @@ function addFilters() {
     categoryList.appendChild(buttonAll)
     for (const category of allCategories) {
         const oneButton = document.createElement("div")
+        //oneButton.classList.add("active")
         oneButton.classList.add("active")
         oneButton.classList.add("filter-button")
         oneButton.setAttribute ("data-cat", category.id)
@@ -111,11 +115,10 @@ function filterListener(){
     const filtersButtons = document.querySelectorAll(".filter-button")
     for (const button of filtersButtons) {
         button.addEventListener("click", (e) => {
-            const id = e.target.dataset.cat
-            const activeButtons = document.querySelectorAll(".active")
-            for (const activeButton of activeButtons) {
-                activeButton.classList.remove("active")
-            }
+            const clickedBtn = e.target
+            const id = clickedBtn.dataset.cat
+            document.querySelector(".active").classList.remove("active")
+            clickedBtn.classList.add("active")
             generateImage(id)
         })
     }
