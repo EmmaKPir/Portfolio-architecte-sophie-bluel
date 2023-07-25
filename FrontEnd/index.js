@@ -2,8 +2,7 @@ const allWorks = new Set();
 const allCategories = new Set();
 const gallery = document.querySelector(".gallery");
 const filterCategory = document.querySelector("#filter-category");
-
-let token = localStorage.token;
+let token = localStorage.getItem("token");
 
 async function init() {
     const works = await getDatabaseInfo("works");
@@ -15,10 +14,27 @@ async function init() {
         allCategories.add(category);
     }
     generateImage();
-    addFilters();
+    if (token) {
+        isAdmin();  
+    } else {
+        addFilters(); 
+    }
 }
 init();
 
+function isAdmin(){
+document.querySelector(".edit-mode").style.display ="flex";
+document.querySelector(".edit-btn1").style.display="flex";
+document.querySelector(".edit-btn2").style.display="flex";
+
+const modifBtnLogin = document.querySelector(".btn-login");
+modifBtnLogin.innerHTML = "Logout";
+
+modifBtnLogin.addEventListener ("click", (e) => {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+})
+}
 /* 
 --------------------
 --------------------
