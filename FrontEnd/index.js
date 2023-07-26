@@ -118,7 +118,6 @@ function addFilters() {
     categoryList.appendChild(buttonAll);
     for (const category of allCategories) {
         const oneButton = document.createElement("div");
-        //oneButton.classList.add("active")
         oneButton.classList.add("active");
         oneButton.classList.add("filter-button");
         oneButton.setAttribute ("data-cat", category.id);
@@ -149,15 +148,48 @@ function filterListener(){
 ---GALLERY PHOTO----
 --------------------
 */
+
+// function to close and open the modal
 function modalOne () {
-    generateImage()
+    generatePictureModal ()
     const modalContainer = document.querySelector(".modal-container");
     const modalTriggers = document.querySelectorAll(".modal-trigger");
+
     modalTriggers.forEach(trigger => trigger.addEventListener ("click", toggleModal));
 
     function toggleModal(){
         modalContainer.classList.toggle("active");
         console.log(modalContainer);
     }
-
 }
+// recory of images for the modal
+const pictureModal = document.querySelector(".picture-modal");
+
+function generatePictureModal () {
+    pictureModal.innerHTML ="";
+    const fragment = document.createDocumentFragment();
+    for (work of allWorks) {
+        const picture = document.createElement("img");
+        picture.classList.add("pictures");
+        picture.src = work.imageUrl;
+
+        const textPicture = document.createElement("p");
+        textPicture.textContent = "édition";
+
+        const trashPicture = document.createElement("div");
+        trashPicture.classList.add("trash");
+        trashPicture.src = "./assets/icons/trash.svg";
+
+        picture.appendChild(textPicture);
+        picture.appendChild(trashPicture);
+        fragment.appendChild(picture);
+    }
+    pictureModal.appendChild(fragment);
+}
+/* 
+--------------------
+--------------------
+-------MODAL--------
+------ADD PHOTO-----
+--------------------
+*/
