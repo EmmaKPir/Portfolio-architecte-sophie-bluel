@@ -15,26 +15,27 @@ async function init() {
     }
     generateImage();
     if (token) {
-        isAdmin();  
+        isAdmin();
     } else {
-        addFilters(); 
+        addFilters();
     }
-    modalOne ();
+    modalOne();
+    modalTwo();
 }
 init();
 
-function isAdmin(){
-document.querySelector(".edit-mode").style.display ="flex";
-document.querySelector(".edit-btn1").style.display="flex";
-document.querySelector(".edit-btn2").style.display="flex";
+function isAdmin() {
+    document.querySelector(".edit-mode").style.display = "flex";
+    document.querySelector(".edit-btn1").style.display = "flex";
+    document.querySelector(".edit-btn2").style.display = "flex";
 
-const modifBtnLogin = document.querySelector(".btn-login");
-modifBtnLogin.innerHTML = "Logout";
+    const modifBtnLogin = document.querySelector(".btn-login");
+    modifBtnLogin.innerHTML = "Logout";
 
-modifBtnLogin.addEventListener ("click", (e) => {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
-})
+    modifBtnLogin.addEventListener("click", (e) => {
+        localStorage.removeItem("token");
+        window.location.href = "index.html";
+    })
 }
 /* 
 --------------------
@@ -44,12 +45,33 @@ modifBtnLogin.addEventListener ("click", (e) => {
 --------------------
 */
 
+// request get data base info
 async function getDatabaseInfo(type) {
     const response = await fetch(`http://localhost:5678/api/${type}`);
     if (response.ok) {
         return response.json();
     } else {
         console.error(response);
+    }
+}
+
+//request delete works
+async function deleteWorks() {
+    const response = await fetch(`http://localhost:5678/api/${type}`, {
+        method: "DELETE",
+        headers: {
+            'content-Type': 'application/JSON',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+    const result = await response.json();
+    if (result.ok) {
+        console.log("Suppression réussie.");
+        document.querySelectorAll("id", "figure-" + work.id).forEach(item =>{
+            item.parentNode.removeChild(item);
+        })
+    } else {
+        console.error("Erreur lors de la suppression du fichier.");
     }
 }
 
@@ -65,9 +87,9 @@ function generateImage(filter = "0") {
     gallery.innerHTML = "";
     const fragment = document.createDocumentFragment();
     let works = [];
-    if(filter == "0"){
+    if (filter == "0") {
         works = allWorks;
-    } else{
+    } else {
         filter = parseInt(filter);
         works = [...allWorks].filter(work => work.categoryId == filter);
         console.log(works);
@@ -78,7 +100,7 @@ function generateImage(filter = "0") {
         const photosElement = document.createElement("img");
         const subtitleElement = document.createElement("figcaption");
         // on change la valeur de la const sectionPhotos
-        sectionPhotos.setAttribute("id", "figure-"+work.id);
+        sectionPhotos.setAttribute("id", "figure-" + work.id);
         // on accède à la source de chaque élement
         photosElement.src = work.imageUrl;
         subtitleElement.textContent = work.title;
@@ -120,7 +142,7 @@ function addFilters() {
         const oneButton = document.createElement("div");
         oneButton.classList.add("active");
         oneButton.classList.add("filter-button");
-        oneButton.setAttribute ("data-cat", category.id);
+        oneButton.setAttribute("data-cat", category.id);
         oneButton.textContent = category.name === "Objets" ? "Objets" : category.name;
         categoryList.appendChild(oneButton);
     }
@@ -129,7 +151,7 @@ function addFilters() {
     filterListener();
 }
 
-function filterListener(){
+function filterListener() {
     const filtersButtons = document.querySelectorAll(".filter-button");
     for (const button of filtersButtons) {
         button.addEventListener("click", (e) => {
@@ -150,42 +172,60 @@ function filterListener(){
 */
 
 // function to close and open the modal
-function modalOne () {
-    generatePictureModal ()
+function modalOne() {
+    generatePictureModal()
     const modalContainer = document.querySelector(".modal-container");
     const modalTriggers = document.querySelectorAll(".modal-trigger");
 
-    modalTriggers.forEach(trigger => trigger.addEventListener ("click", toggleModal));
+    modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal));
 
-    function toggleModal(){
+    function toggleModal() {
         modalContainer.classList.toggle("active");
-        console.log(modalContainer);
     }
 }
-// recory of images for the modal
+// recovery of images for the modal
 const pictureModal = document.querySelector(".picture-modal");
 
-function generatePictureModal () {
-    pictureModal.innerHTML ="";
+function generatePictureModal() {
+    pictureModal.innerHTML = "";
     const fragment = document.createDocumentFragment();
     for (work of allWorks) {
+        const containerPicture = document.createElement("div");
+        containerPicture.classList.add("photosM");
+
         const picture = document.createElement("img");
         picture.classList.add("pictures");
         picture.src = work.imageUrl;
 
         const textPicture = document.createElement("p");
-        textPicture.textContent = "édition";
+        textPicture.src = work.title;
+        textPicture.innerHTML = "éditer";
+        textPicture.classList.add("edit")
 
         const trashPicture = document.createElement("div");
-        trashPicture.classList.add("trash");
-        trashPicture.src = "./assets/icons/trash.svg";
+        trashPicture.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 
-        picture.appendChild(textPicture);
-        picture.appendChild(trashPicture);
-        fragment.appendChild(picture);
+        containerPicture.appendChild(picture);
+        containerPicture.appendChild(textPicture);
+        containerPicture.appendChild(trashPicture);
+        fragment.appendChild(containerPicture);
     }
     pictureModal.appendChild(fragment);
 }
+
+// delete the pictures
+function deletePicture() {
+    const emptyBin = document.querySelectorAll(".fa-trash-can");
+    emptyBin.forEach(deleteTrash); {
+        deleteTrash.addEventListener("click", (e) => {
+            e.preventDefault ();
+            deleteWorks(e.target.dataset.id);
+        });
+    };
+};
+
+
+
 /* 
 --------------------
 --------------------
@@ -193,3 +233,14 @@ function generatePictureModal () {
 ------ADD PHOTO-----
 --------------------
 */
+
+function modalTwo() {
+    const modal2 = document.querySelector(".modal2");
+    const modalTriggers = document.querySelectorAll(".modal-trigger-modal2");
+
+    modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal));
+
+    function toggleModal() {
+        modal2.classList.toggle("active");
+    }
+}

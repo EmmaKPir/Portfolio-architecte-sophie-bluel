@@ -331,7 +331,7 @@ form button:hover {
 	position: absolute;
 	bottom: 0;
 }
-/*CSS Modal*/
+/********* CSS Modal1 ********/
 .modal-container {
 	position: absolute;
 	display: none;
@@ -343,15 +343,16 @@ form button:hover {
 }
 .modal-container.active {
 	display: block;
+	background: rgba(63, 62, 62, 0.3);
 }
 .overlay {
 	width: 100%;
 	height: 418%;
-	background: rgba(63, 62, 62, 0.3);;
+	background: rgba(63, 62, 62, 0.3);
 }
-.modal1 {
+.modal1, .modal2 {
 	width: 66%;
-	height: 731px;
+	height: 854px;
 	border-radius: 10px;
 	background: #FFF;
 	position: absolute;
@@ -371,17 +372,53 @@ form button:hover {
 
 .picture-modal {
 	height: 78%;
-	width: 100%;
+	width: 81%;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	align-content: space-around;
+	margin: auto;
 }
+.photosM i {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	color: #FFF;
+	width: 19px;
+	height: 21px;
+	top: 5%;
+	right: 5%;
+	background: #000;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.photosM {
+	width: 17%;
+	height: 27%;
+	position: relative;
+}
+
 .pictures {
-	width: 21%;
-	height: 169px;
+	width: 100%;
+	height: 148px;
 }
+.edit {
+	font-size: 16px;
+	color: #000;
+	padding: auto;
+}
+
+.underline {
+	width: 82%;
+	height: 1px;
+	background: #B3B3B3;
+	margin: auto;
+	margin-bottom: 20px;
+}
+
 .add-picture {
 	border-radius: 60px;
 	background: #1D6154;
@@ -414,4 +451,105 @@ form button:hover {
 	font-size: 20px;
 	right: 5%;
 	cursor: pointer;
+}
+
+/******** CSS modal 2 *********/
+.modal2 {
+	display: none;
+}
+
+.modal2.active {
+	display: block;
+}
+
+.icon-modal2 i {
+	margin-top: 20px;
+	margin-left: 10px;
+	color: #000;
+	width: 21px;
+	height: 21px;
+	font-size: 25px;
+}
+
+.modal2 h2 {
+	margin-top: 30px;
+	text-align: center;
+	color: #000;
+	font-family: Work Sans;
+	font-size: 26px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+.add-img {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 64%;
+	height: 246px;
+	border-radius: 3px;
+	background: #E8F1F6;
+}
+
+.add-img input {
+	width: 80%;
+	background: #E8F1F6;
+	box-shadow: none;
+}
+
+.add-img button {
+	color: #306685;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	border-radius: 50px;
+	background: #CBD6DC;
+}
+
+.add-img p {
+	color: #444;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+}
+
+form label {
+	width: 63%;
+	color: #3D3D3D;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+form input {
+	width: 63%;
+}
+
+.underline-modal2 {
+	width: 64%;
+	height: 1px;
+	background: #B3B3B3;
+	margin: auto;
+	margin-bottom: 20px;
+	margin-top: 60px;
+}
+
+.modal2 form {
+	margin-top: 50px;
+}
+
+.validation-modal2 {
+	width: 30%;
 }
