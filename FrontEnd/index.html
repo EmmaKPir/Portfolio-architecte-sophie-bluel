@@ -16,7 +16,7 @@
 
 <body>
 	<div class="modal-container">
-		<div class="overlay modal-trigger"></div>
+		<div class="overlay modal-trigger modal-trigger-xmark"></div>
 		<div class="modal1">
 			<button class="close-modal modal-trigger"><i class="fa-solid fa-xmark"></i></button>
 			<h2>Galerie photo</h2>
@@ -28,24 +28,22 @@
 		<div class="modal2">
 			<div class="icon-modal2">
 				<i class="fa-solid fa-arrow-left modal-trigger-modal2"></i>
-				<i class="fa-solid fa-xmark modal-trigger-modal2"></i>
+				<i class="fa-solid fa-xmark modal-trigger-xmark"></i>
 			</div>
 			<h2>Ajout photo</h2>
-			<div>
-				<form action="#" method="post">
-					<div class="add-img">
-						<input type="image" alt="pattern" src="./assets/icons/picture-svgrepo-com 1.svg">
-						<button>+ Ajouter photo</button>
-						<p>jpg, png : 4mo max</p>
-					</div>
-					<label for="title">Titre</label>
-					<input type="text" name="title">
-					<label for="Cat-form">Catégorie</label>
-					<input type="text" name="Cat-form">
-					<div class="underline-modal2"></div>
-					<input type="submit" value="Valider" class="validation-modal2">
-				</form>
-			</div>	
+			<form action="#" method="post">
+				<div class="add-img">
+					<input type="image" class="container-img" alt="pattern" src="./assets/icons/picture-svgrepo-com 1.svg">
+					<button class="btn-add">+ Ajouter photo</button>
+					<p>jpg, png : 4mo max</p>
+				</div>
+				<label for="title">Titre</label>
+				<input type="text" name="title" class="input-modal2">
+				<label for="Cat-form">Catégorie</label>
+				<select type="categorie-liste" name="Cat-form" class="input-modal2"></select>
+				<div class="underline-modal2"></div>
+				<input type="submit" value="Valider" class="validation-modal2">
+			</form>
 		</div>
 	</div>
 	<div class="edit-mode">
