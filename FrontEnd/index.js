@@ -2,6 +2,7 @@ const allWorks = new Set();
 const allCategories = new Set();
 const gallery = document.querySelector(".gallery");
 const filterCategory = document.querySelector("#filter-category");
+const pictureModal = document.querySelector(".picture-modal");
 let token = localStorage.getItem("token");
 
 async function init() {
@@ -21,6 +22,7 @@ async function init() {
     }
     modalOne();
     modalTwo();
+    modalTwoSecondPart();
 }
 init();
 
@@ -56,22 +58,22 @@ async function getDatabaseInfo(type) {
 }
 
 //request delete works
-async function deleteWorks() {
-    const response = await fetch(`http://localhost:5678/api/${type}`, {
+async function deleteWorks(id) {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: {
-            'content-Type': 'application/JSON',
             'Authorization': `Bearer ${token}`,
         },
     });
-    const result = await response.json();
-    if (result.ok) {
+    if (response.ok) {
         console.log("Suppression réussie.");
         document.querySelectorAll("id", "figure-" + work.id).forEach(item =>{
             item.parentNode.removeChild(item);
         })
+        return "deleted";
     } else {
         console.error("Erreur lors de la suppression du fichier.");
+        return "error";
     }
 }
 
@@ -173,7 +175,7 @@ function filterListener() {
 
 // function to close and open the modal
 function modalOne() {
-    generatePictureModal()
+    generatePictureModal();
     const modalContainer = document.querySelector(".modal-container");
     const modalTriggers = document.querySelectorAll(".modal-trigger");
 
@@ -183,9 +185,8 @@ function modalOne() {
         modalContainer.classList.toggle("active");
     }
 }
-// recovery of images for the modal
-const pictureModal = document.querySelector(".picture-modal");
 
+// recovery of images for the modal
 function generatePictureModal() {
     pictureModal.innerHTML = "";
     const fragment = document.createDocumentFragment();
@@ -205,16 +206,20 @@ function generatePictureModal() {
         const trashPicture = document.createElement("div");
         trashPicture.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
 
+        const iconemoove = document.createElement("div");
+        iconemoove.innerHTML = '<i class="fa-solid fa-up-down-left-right"></i>'
+
         containerPicture.appendChild(picture);
         containerPicture.appendChild(textPicture);
         containerPicture.appendChild(trashPicture);
+        containerPicture.appendChild(iconemoove);
         fragment.appendChild(containerPicture);
     }
     pictureModal.appendChild(fragment);
 }
 
 // delete the pictures
-function deletePicture() {
+function deletePictureListener() {
     const emptyBin = document.querySelectorAll(".fa-trash-can");
     emptyBin.forEach(deleteTrash); {
         deleteTrash.addEventListener("click", (e) => {
@@ -234,7 +239,9 @@ function deletePicture() {
 --------------------
 */
 
+// open and close the modal N°2
 function modalTwo() {
+    listCategoryModal2();
     const modal2 = document.querySelector(".modal2");
     const modalTriggers = document.querySelectorAll(".modal-trigger-modal2");
 
@@ -243,4 +250,43 @@ function modalTwo() {
     function toggleModal() {
         modal2.classList.toggle("active");
     }
+}
+
+function modalTwoSecondPart() {
+    listCategoryModal2();
+    const modal2 = document.querySelector(".modal2");
+    const modalContainer = document.querySelector(".modal-container");
+    const modalTriggers = document.querySelectorAll(".modal-trigger-xmark");
+
+    modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal));
+
+    function toggleModal() {
+        modal2.classList.remove("active");
+        modalContainer.classList.remove("active");
+    }
+}
+
+// Add image in the modal N°2
+/*function addPictureInModal2 () {
+    const addPicture = document.querySelector(".container-img");
+    const buttonAdd = document.querySelector(".btn-add");
+
+    buttonAdd.addEventListener("click", (e) => {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/png";
+        fileInput.style.display = "none";
+    })
+}*/
+
+// list category in the modal N°2
+function listCategoryModal2 () {
+    const containerCat = document.querySelector("select");
+    containerCat.innerHTML="";
+        for (const category of allCategories) {
+            const optionCat = document.createElement("option");
+            optionCat.value = category.id;
+            optionCat.textContent = category.name;
+            containerCat.appendChild(optionCat);  
+        };
 }
