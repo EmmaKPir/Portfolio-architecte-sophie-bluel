@@ -67,7 +67,7 @@ async function deleteWorks(id) {
     });
     if (response.ok) {
         console.log("Suppression réussie.");
-        document.querySelectorAll("id", "figure-" + work.id).forEach(item =>{
+        document.querySelectorAll("id", "picture-" + work.id).forEach(item =>{
             item.parentNode.removeChild(item);
         })
         return "deleted";
@@ -193,6 +193,7 @@ function generatePictureModal() {
     for (work of allWorks) {
         const containerPicture = document.createElement("div");
         containerPicture.classList.add("photosM");
+        containerPicture.setAttribute("id", "picture-" + work.id);
 
         const picture = document.createElement("img");
         picture.classList.add("pictures");
@@ -201,10 +202,17 @@ function generatePictureModal() {
         const textPicture = document.createElement("p");
         textPicture.src = work.title;
         textPicture.innerHTML = "éditer";
-        textPicture.classList.add("edit")
+        textPicture.classList.add("edit");
 
+        // creation trash and delete picture
         const trashPicture = document.createElement("div");
         trashPicture.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+        trashPicture.classList.add("trash");
+        trashPicture.dataset.workId = work.id;
+        trashPicture.addEventListener("click", async () =>{
+            await deleteWorks(work.id);
+            containerPicture.remove();
+        })
 
         const iconemoove = document.createElement("div");
         iconemoove.innerHTML = '<i class="fa-solid fa-up-down-left-right"></i>'
@@ -217,19 +225,6 @@ function generatePictureModal() {
     }
     pictureModal.appendChild(fragment);
 }
-
-// delete the pictures
-function deletePictureListener() {
-    const emptyBin = document.querySelectorAll(".fa-trash-can");
-    emptyBin.forEach(deleteTrash); {
-        deleteTrash.addEventListener("click", (e) => {
-            e.preventDefault ();
-            deleteWorks(e.target.dataset.id);
-        });
-    };
-};
-
-
 
 /* 
 --------------------
@@ -252,6 +247,7 @@ function modalTwo() {
     }
 }
 
+// close the modal N°2 with X and overlay
 function modalTwoSecondPart() {
     listCategoryModal2();
     const modal2 = document.querySelector(".modal2");
@@ -266,23 +262,22 @@ function modalTwoSecondPart() {
     }
 }
 
-// Add image in the modal N°2
-/*function addPictureInModal2 () {
-    const addPicture = document.querySelector(".container-img");
-    const buttonAdd = document.querySelector(".btn-add");
-
-    buttonAdd.addEventListener("click", (e) => {
-        const fileInput = document.createElement("input");
-        fileInput.type = "file";
-        fileInput.accept = "image/png";
-        fileInput.style.display = "none";
-    })
+/*// Add image in the modal N°2
+function addPictureInModal2 () {
+    const addPicture = document.querySelector(".add-img");
+    const inputFile = document.querySelector("#bnt-add");
+    inputFile.addEventListener("change", )
 }*/
+
 
 // list category in the modal N°2
 function listCategoryModal2 () {
     const containerCat = document.querySelector("select");
-    containerCat.innerHTML="";
+    containerCat.innerHTML= "";
+    const emptyOption = document.createElement("option")
+    emptyOption.value = "";
+    emptyOption.text = "";
+    containerCat.appendChild(emptyOption);
         for (const category of allCategories) {
             const optionCat = document.createElement("option");
             optionCat.value = category.id;

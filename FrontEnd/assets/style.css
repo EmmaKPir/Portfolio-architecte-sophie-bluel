@@ -585,3 +585,23 @@ form label {
 .fa-arrow-left {
 	cursor: pointer;
 }
+
+input[type="file"] {
+	height: 0;
+	width: 0;
+	display: none;
+}
+
+.add-img label {
+	border: 1px solid transparent;
+	border-radius: 50px;
+	background: #CBD6DC;
+	height: 36px;
+	width: 237px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #306685;
+	font-size: 14px;
+}
