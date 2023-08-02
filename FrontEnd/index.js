@@ -23,6 +23,7 @@ async function init() {
     modalOne();
     modalTwo();
     modalTwoSecondPart();
+    addPictureInModal2();
 }
 init();
 
@@ -262,12 +263,27 @@ function modalTwoSecondPart() {
     }
 }
 
-/*// Add image in the modal N°2
-function addPictureInModal2 () {
-    const addPicture = document.querySelector(".add-img");
-    const inputFile = document.querySelector("#bnt-add");
-    inputFile.addEventListener("change", )
-}*/
+// Add image in the modal N°2
+function addPictureInModal2() {
+    const containerPicture = document.querySelector(".add-img");
+    const containerElement = document.querySelector(".container-img");
+    const containerElement2 = document.querySelector(".preview-p");
+    const containerElement3 = document.querySelector(".preview-label");
+    const inputFile = document.querySelector("#btn-add");
+    inputFile.addEventListener ("change", (e)=> {
+        let curFiles = inputFile.files;
+        if (curFiles.length > 0) {
+            for (let i = 0; i < curFiles.length; i++) {
+            const image = document.createElement("img");
+            image.src = window.URL.createObjectURL(curFiles[i]);
+            containerPicture.appendChild(image);
+            containerElement.classList.toggle("hidden");
+            containerElement2.classList.toggle("hidden");
+            containerElement3.classList.toggle("hidden");
+            }
+        }
+    })
+}
 
 
 // list category in the modal N°2

@@ -605,3 +605,27 @@ input[type="file"] {
 	color: #306685;
 	font-size: 14px;
 }
+
+.container-img {
+	display: block;
+}
+
+.container-img.hidden  {
+	display: none;
+}
+
+.preview-p {
+	display: block;
+}
+
+.preview-p.hidden  {
+	display: none;
+}
+
+.preview-label {
+	display: block;
+}
+
+.preview-label.hidden  {
+	display: none;
+}
