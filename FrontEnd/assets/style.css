@@ -177,6 +177,14 @@ li:hover {
 	cursor: pointer;
 }
 
+.edit-btn3 {
+	display: none;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	cursor: pointer;
+}
+
 /* Layout button filter */
 #filter-category {
 	display: flex;
@@ -513,6 +521,7 @@ form button:hover {
 	height: 246px;
 	border-radius: 3px;
 	background: #E8F1F6;
+	position: relative;
 }
 
 .add-img input {
@@ -579,7 +588,6 @@ form label {
 
 .validation-modal2 {
 	width: 30%;
-	cursor: pointer;
 }
 
 .fa-arrow-left {
@@ -629,3 +637,22 @@ input[type="file"] {
 .preview-label.hidden  {
 	display: none;
 }
+
+.delete-picture {
+	color: #000;
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	opacity: 0;
+}
+
+.delete-picture.active {
+	opacity: 1;
+	background: #E8F1F6;
+}
+
+.validation-modal2[disabled] {
+	background-color: #A7A7A7;
+	cursor: auto;
+  }
+  
