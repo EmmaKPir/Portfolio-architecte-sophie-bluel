@@ -1,5 +1,6 @@
 const allWorks = new Set();
 const allCategories = new Set();
+const formData = new FormData();
 const gallery = document.querySelector(".gallery");
 const filterCategory = document.querySelector("#filter-category");
 const pictureModal = document.querySelector(".picture-modal");
@@ -8,7 +9,12 @@ const containerElement = document.querySelector(".container-img");
 const containerElement2 = document.querySelector(".preview-p");
 const containerElement3 = document.querySelector(".preview-label");
 const containerDelete = document.querySelector(".delete-picture");
-const inputFile = document.querySelector("#btn-add");
+const inputFile = document.getElementById("btn-add");
+const image = document.querySelector("preview-picture");
+const title = document.getElementById("title");
+const category = document.getElementById("liste-cat");
+const buttonSubmit = document.getElementById("submit-button");
+const formulaire = document.getElementById("formulaire");
 let token = localStorage.getItem("token");
 
 async function init() {
@@ -30,7 +36,9 @@ async function init() {
     modalTwo();
     modalTwoSecondPart();
     addPictureInModal2();
-    checkForm();
+    validationInput();
+    deletePicture();
+    addNewPicture();
 }
 init();
 
@@ -83,21 +91,22 @@ async function deleteWorks(id) {
     }
 }
 
-/*// for send form
-async function sendWork(type) {
-    const response = await fetch(`http://localhost:5678/api/works/${type}`, {
+// for send form
+async function sendWork() {
+    const response = await fetch(`http://localhost:5678/api/works`, {
         method: "POST",
-        body: formData
+        body: formData,
         headers: {
             'Authorization': `Bearer ${token}`,
         },
     });
     if (response.ok) {
-        return "enregistrement réussi";
+        const response = await response.json();
+        console.log("enregistrement réussi");
     } else {
-        return "error";
+        console.log("erreur de téléchargement");
     }
-}*/
+}
 
 /* 
 --------------------
@@ -293,7 +302,6 @@ function modalTwoSecondPart() {
 // Part Image
 // Add image in the modal N°2 and hide the other elements
 function addPictureInModal2() {
-
     inputFile.addEventListener ("change", (e)=> {
         let curFiles = inputFile.files;
         if (sizeImage(curFiles) === false) {
@@ -311,17 +319,24 @@ function addPictureInModal2() {
                 containerElement2.classList.toggle("hidden");
                 containerElement3.classList.toggle("hidden");
                 containerDelete.classList.toggle("active");
-                // delete image
-                containerDelete.addEventListener("click", (e)=>{
-                 containerElement.classList.toggle("hidden");
-                    containerElement2.classList.toggle("hidden");
-                    containerElement3.classList.toggle("hidden");
-                    containerDelete.classList.toggle("active");
-                    image.remove();
-                })
-            }
+            } 
         }
     })
+
+}
+
+// delete picture if you want to upload an other
+function deletePicture() {
+    containerDelete.addEventListener("click", (e)=>{
+        const image = document.querySelector(".preview-picture");
+        containerElement.classList.toggle("hidden");
+        containerElement2.classList.toggle("hidden");
+        containerElement3.classList.toggle("hidden");
+        containerDelete.classList.toggle("active");
+        inputFile.value = null;
+        image.remove();
+       })
+
 }
 
 // type validation
@@ -361,14 +376,31 @@ function listCategoryModal2 () {
 }
 
 // validation input of the modal N°2
-function checkForm() {
-    const title = document.getElementById("title");
-    const image = document.getElementById("btn-add");
-    const category = document.getElementById("liste-cat");
-    const buttonSubmit = document.getElementById("submit-button");
-    const formulaire = document.getElementById("formulaire");
+function validationInput() {
+    formulaire.addEventListener("input", (e) =>{
+        checkForm();
+    })
+}
 
-    formulaire.addEventListener("input", (e) => {
-        buttonSubmit.style.backgroundColor = title.value.length > 0 && image.value.length > 0 && category.value.length > 0 ? '' : "rgb(167, 167, 167)"; 
-    });
+function checkForm() {
+    if (title.value != "" && inputFile.value != "" && category.value != "" ) {
+        buttonSubmit.style.cursor = "pointer";
+        buttonSubmit.disabled = false;
+        buttonSubmit.style.backgroundColor = "#1D6154";
+    } else {
+        buttonSubmit.style.cursor = "auto";
+        buttonSubmit.disabled = true;
+        buttonSubmit.style.backgroundColor = "#A7A7A7";
+    }
+}
+
+// add work in the API
+function addNewPicture() {
+    formulaire.addEventListener("submit", (e) =>{
+        e.preventDefault();
+        formData.append("image", inputFile.files[0]);
+        formData.append("title", title.value)
+        formData.append("category", category.value);
+        sendWork();
+    })
 }

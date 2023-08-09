@@ -266,7 +266,7 @@ input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color: #1D6154;
+	background-color: #A7A7A7;
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
@@ -319,7 +319,7 @@ form input {
 	flex-shrink: 0;
 	border-color: transparent;
 }
-form button {
+.modal1 button {
 	width: 179px;
 	height: 36px;
 	flex-shrink: 0;
@@ -530,8 +530,8 @@ form button:hover {
 	box-shadow: none;
 }
 
-.add-img button {
-	color: #306685;
+.validation-modal2 {
+	color: #A7A7A7;
 	text-align: center;
 	font-family: Work Sans;
 	font-size: 14px;
@@ -540,6 +540,7 @@ form button:hover {
 	line-height: normal;
 	border-radius: 50px;
 	background: #CBD6DC;
+	cursor: auto;
 }
 
 .add-img p {
@@ -618,7 +619,7 @@ input[type="file"] {
 	display: block;
 }
 
-.container-img.hidden  {
+.container-img.hidden {
 	display: none;
 }
 
@@ -626,7 +627,7 @@ input[type="file"] {
 	display: block;
 }
 
-.preview-p.hidden  {
+.preview-p.hidden {
 	display: none;
 }
 
@@ -650,9 +651,4 @@ input[type="file"] {
 	opacity: 1;
 	background: #E8F1F6;
 }
-
-.validation-modal2[disabled] {
-	background-color: #A7A7A7;
-	cursor: auto;
-  }
   
