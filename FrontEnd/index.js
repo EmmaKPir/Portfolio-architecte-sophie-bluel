@@ -15,6 +15,7 @@ const title = document.getElementById("title");
 const category = document.getElementById("liste-cat");
 const buttonSubmit = document.getElementById("submit-button");
 const formulaire = document.getElementById("formulaire");
+const modal2 = document.querySelector(".modal2");
 let token = localStorage.getItem("token");
 
 async function init() {
@@ -101,7 +102,7 @@ async function sendWork() {
         },
     });
     if (response.ok) {
-        const response = await response.json();
+        const resp = await response.json();
         console.log("enregistrement réussi");
     } else {
         console.log("erreur de téléchargement");
@@ -271,10 +272,9 @@ function generatePictureModal() {
 --------------------
 */
 
-// open and close the modal N°2
+// open the modal, close the modal N°2 with arrow and return on the modal 1
 function modalTwo() {
     listCategoryModal2();
-    const modal2 = document.querySelector(".modal2");
     const modalTriggers = document.querySelectorAll(".modal-trigger-modal2");
 
     modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal));
@@ -287,19 +287,18 @@ function modalTwo() {
 // close the modal N°2 with X and overlay
 function modalTwoSecondPart() {
     listCategoryModal2();
-    const modal2 = document.querySelector(".modal2");
     const modalContainer = document.querySelector(".modal-container");
     const modalTriggers = document.querySelectorAll(".modal-trigger-xmark");
 
     modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal));
-
+    
     function toggleModal() {
         modal2.classList.remove("active");
         modalContainer.classList.remove("active");
     }
 }
 
-// Part Image
+/************ Part Image **************/
 // Add image in the modal N°2 and hide the other elements
 function addPictureInModal2() {
     inputFile.addEventListener ("change", (e)=> {
@@ -358,7 +357,7 @@ function sizeImage(curFiles) {
     return true;
 }
 
-//Part Category
+/**************** Part Category ************/
 // list category in the modal N°2
 function listCategoryModal2 () {
     const containerCat = document.querySelector("select");
@@ -374,7 +373,7 @@ function listCategoryModal2 () {
             containerCat.appendChild(optionCat);  
         };
 }
-
+/************** Validation form and add work **************/
 // validation input of the modal N°2
 function validationInput() {
     formulaire.addEventListener("input", (e) =>{
@@ -382,6 +381,7 @@ function validationInput() {
     })
 }
 
+// condition of the form
 function checkForm() {
     if (title.value != "" && inputFile.value != "" && category.value != "" ) {
         buttonSubmit.style.cursor = "pointer";
@@ -394,13 +394,29 @@ function checkForm() {
     }
 }
 
-// add work in the API
+//add work in the API
 function addNewPicture() {
-    formulaire.addEventListener("submit", (e) =>{
+    formulaire.addEventListener("submit", async (e) =>{
         e.preventDefault();
         formData.append("image", inputFile.files[0]);
-        formData.append("title", title.value)
+        formData.append("title", title.value);
         formData.append("category", category.value);
-        sendWork();
+        await sendWork();
+        deleteForm();
+        closeModal2();
+        generatePictureModal();
+        generateImage(filter = "0");
     })
+}
+
+// delete the form
+function deleteForm() {
+    title.value = "";
+    category.value = "";
+    inputFile.files[0] = "";
+}
+
+// close the modal 2 and return on the modal 1
+function closeModal2() {
+    modal2.classList.toggle("hidden");
 }
