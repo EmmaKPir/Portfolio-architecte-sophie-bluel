@@ -5,9 +5,9 @@ const gallery = document.querySelector(".gallery");
 const filterCategory = document.querySelector("#filter-category");
 const pictureModal = document.querySelector(".picture-modal");
 const containerPicture = document.querySelector(".add-img");
-const containerElement = document.querySelector(".container-img");
-const containerElement2 = document.querySelector(".preview-p");
-const containerElement3 = document.querySelector(".preview-label");
+const containerPreviewImage = document.querySelector(".container-img");
+const previewText = document.querySelector(".preview-p");
+const previewLabel = document.querySelector(".preview-label");
 const containerDelete = document.querySelector(".delete-picture");
 const inputFile = document.getElementById("btn-add");
 const image = document.querySelector("preview-picture");
@@ -102,8 +102,8 @@ async function sendWork() {
         },
     });
     if (response.ok) {
-        const resp = await response.json();
         console.log("enregistrement réussi");
+        return response.json();
     } else {
         console.log("erreur de téléchargement");
     }
@@ -224,7 +224,8 @@ function generatePictureModal() {
     pictureModal.innerHTML = "";
     const fragment = document.createDocumentFragment();
     for (work of allWorks) {
-        const containerPicture = document.createElement("div");
+        const containerPicture = document.createElement("figure");
+        containerPicture.dataset.id = work.id;
         containerPicture.classList.add("photosM");
         containerPicture.setAttribute("id", "picture-" + work.id);
 
@@ -241,14 +242,21 @@ function generatePictureModal() {
         const trashPicture = document.createElement("div");
         trashPicture.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
         trashPicture.classList.add("trash");
-        trashPicture.dataset.workId = work.id;
-        trashPicture.addEventListener("click", async () =>{
-            await deleteWorks(work.id);
-            containerPicture.remove();
-            const selectedImageId = containerPicture.id.replace("picture-", "")
-            const galleryImagesToDelete = document.getElementById(`figure-${selectedImageId}`);
-            if (galleryImagesToDelete) {
-                galleryImagesToDelete.remove();
+        trashPicture.addEventListener("click", async (e) => {
+            const parent = e.target.closest("figure")
+            const id = parent.dataset.id;
+            const isDeleted = await deleteWorks(id);
+            if (isDeleted == "deleted") {
+                parent.remove()
+                const galleryImagesToDelete = document.getElementById(`figure-${id}`);
+                if (galleryImagesToDelete) {
+                    galleryImagesToDelete.remove();
+                }
+                for (const work of allWorks) {
+                    if (work.id == id) {
+                        allWorks.delete(work)
+                    }
+                }
             }
         });
 
@@ -291,7 +299,7 @@ function modalTwoSecondPart() {
     const modalTriggers = document.querySelectorAll(".modal-trigger-xmark");
 
     modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal));
-    
+
     function toggleModal() {
         modal2.classList.remove("active");
         modalContainer.classList.remove("active");
@@ -301,7 +309,7 @@ function modalTwoSecondPart() {
 /************ Part Image **************/
 // Add image in the modal N°2 and hide the other elements
 function addPictureInModal2() {
-    inputFile.addEventListener ("change", (e)=> {
+    inputFile.addEventListener("change", (e) => {
         let curFiles = inputFile.files;
         if (sizeImage(curFiles) === false) {
             alert("La taille de l'image est trop grande : maxi 4Mo.");
@@ -314,11 +322,11 @@ function addPictureInModal2() {
                 image.classList.add("preview-picture");
                 image.src = window.URL.createObjectURL(curFiles[i]);
                 containerPicture.appendChild(image);
-                containerElement.classList.toggle("hidden");
-                containerElement2.classList.toggle("hidden");
-                containerElement3.classList.toggle("hidden");
+                containerPreviewImage.classList.toggle("hidden");
+                previewText.classList.toggle("hidden");
+                previewLabel.classList.toggle("hidden");
                 containerDelete.classList.toggle("active");
-            } 
+            }
         }
     })
 
@@ -326,15 +334,15 @@ function addPictureInModal2() {
 
 // delete picture if you want to upload an other
 function deletePicture() {
-    containerDelete.addEventListener("click", (e)=>{
+    containerDelete.addEventListener("click", (e) => {
         const image = document.querySelector(".preview-picture");
-        containerElement.classList.toggle("hidden");
-        containerElement2.classList.toggle("hidden");
-        containerElement3.classList.toggle("hidden");
+        containerPreviewImage.classList.toggle("hidden");
+        previewText.classList.toggle("hidden");
+        previewLabel.classList.toggle("hidden");
         containerDelete.classList.toggle("active");
         inputFile.value = null;
         image.remove();
-       })
+    })
 
 }
 
@@ -343,15 +351,15 @@ function typeImage(curFiles) {
     const allowedTypes = ['images/jpeg', 'image/png'];
     for (var i = 0; i < curFiles.length; i++) {
         if (!allowedTypes.includes(curFiles[i].type)) {
-          return;
+            return;
         }
-      }
+    }
 }
 
 // size validation
 function sizeImage(curFiles) {
     const maxSize = 4000000;
-    if (curFiles[0].size > maxSize){
+    if (curFiles[0].size > maxSize) {
         return false;
     }
     return true;
@@ -359,31 +367,31 @@ function sizeImage(curFiles) {
 
 /**************** Part Category ************/
 // list category in the modal N°2
-function listCategoryModal2 () {
+function listCategoryModal2() {
     const containerCat = document.querySelector("select");
-    containerCat.innerHTML= "";
+    containerCat.innerHTML = "";
     const emptyOption = document.createElement("option")
     emptyOption.value = "";
     emptyOption.text = "";
     containerCat.appendChild(emptyOption);
-        for (const category of allCategories) {
-            const optionCat = document.createElement("option");
-            optionCat.value = category.id;
-            optionCat.textContent = category.name;
-            containerCat.appendChild(optionCat);  
-        };
+    for (const category of allCategories) {
+        const optionCat = document.createElement("option");
+        optionCat.value = category.id;
+        optionCat.textContent = category.name;
+        containerCat.appendChild(optionCat);
+    };
 }
 /************** Validation form and add work **************/
 // validation input of the modal N°2
 function validationInput() {
-    formulaire.addEventListener("input", (e) =>{
+    formulaire.addEventListener("input", (e) => {
         checkForm();
     })
 }
 
 // condition of the form
 function checkForm() {
-    if (title.value != "" && inputFile.value != "" && category.value != "" ) {
+    if (title.value != "" && inputFile.value != "" && category.value != "") {
         buttonSubmit.style.cursor = "pointer";
         buttonSubmit.disabled = false;
         buttonSubmit.style.backgroundColor = "#1D6154";
@@ -396,27 +404,23 @@ function checkForm() {
 
 //add work in the API
 function addNewPicture() {
-    formulaire.addEventListener("submit", async (e) =>{
+    formulaire.addEventListener("submit", async(e) => {
         e.preventDefault();
         formData.append("image", inputFile.files[0]);
         formData.append("title", title.value);
         formData.append("category", category.value);
-        await sendWork();
+        const newWork = await sendWork();
+        allWorks.add(newWork)
         deleteForm();
-        closeModal2();
         generatePictureModal();
-        generateImage(filter = "0");
+        generateImage();
+        modal2.classList.remove("active");
     })
 }
 
 // delete the form
 function deleteForm() {
     title.value = "";
-    category.value = "";
-    inputFile.files[0] = "";
-}
-
-// close the modal 2 and return on the modal 1
-function closeModal2() {
-    modal2.classList.toggle("hidden");
+    category.value = 0;
+    inputFile.value = null;
 }

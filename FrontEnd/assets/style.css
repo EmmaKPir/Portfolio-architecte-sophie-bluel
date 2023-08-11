@@ -59,6 +59,15 @@ header {
 	margin: 50px 150px 0 150px;
 	max-width: 1140px;
 }
+
+@media screen and (max-width: 592px) {
+  header {
+    flex-direction: column;
+	width: 100%;
+	    margin: 50px 150px 0 40px;
+  }
+}
+
 main {
 	max-width: 1140px;
 	margin:auto;
@@ -93,8 +102,8 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-
 }
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
@@ -156,6 +165,7 @@ li:hover {
 .edit-mode button {
     height: 38px;
     width: 13%;
+	min-width: 122px;
     border-radius: 60px;
     border: transparent;
 	cursor: pointer;
@@ -319,7 +329,7 @@ form input {
 	flex-shrink: 0;
 	border-color: transparent;
 }
-.modal1 button {
+form button {
 	width: 179px;
 	height: 36px;
 	flex-shrink: 0;
@@ -360,7 +370,7 @@ form button:hover {
 }
 
 .modal1, .modal2 {
-	width: 66%;
+	width: 70%;
 	height: 854px;
 	border-radius: 10px;
 	background: #FFF;
@@ -380,15 +390,41 @@ form button:hover {
 }
 
 .picture-modal {
-	height: 78%;
-	width: 81%;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-content: space-around;
-	margin: auto;
+	height: 70%;
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(5, 152px);
+	grid-template-rows: repeat(3, 168px);
+	margin-top: 50px;
+	overflow-y: auto;
+	column-gap: 10px;
+	row-gap: 41px;
+	justify-content: center;
 }
+@media screen and (max-width: 1182px) {
+  .picture-modal {
+    grid-template-columns: repeat(4, 152px); /* Passe à 4 colonnes */
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .picture-modal {
+    grid-template-columns: repeat(3, 152px); /* Passe à 4 colonnes */
+  }
+}
+
+@media screen and (max-width: 711px) {
+  .picture-modal {
+    grid-template-columns: repeat(2, 152px); /* Passe à 4 colonnes */
+  }
+}
+
+@media screen and (max-width: 491px) {
+  .picture-modal {
+    grid-template-columns: repeat(1, 152px); /* Passe à 4 colonnes */
+  }
+}
+
 .fa-trash-can {
 	display: flex;
 	justify-content: center;
@@ -425,8 +461,8 @@ form button:hover {
 }
 
 .photosM {
-	width: 17%;
-	height: 27%;
+	width: 122px;
+	height: 139px;
 	position: relative;
 }
 
@@ -474,11 +510,13 @@ form button:hover {
 	border-color: transparent;
 	width: 100%;
 	position: relative;
+	height: 20px;
+    margin-top: 12px;
 }
 
 .fa-xmark {
 	position: absolute;
-	font-size: 20px;
+	font-size: 26px;
 	right: 5%;
 	cursor: pointer;
 	color: #000;
