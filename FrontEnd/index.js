@@ -394,10 +394,6 @@ function checkForm() {
         buttonSubmit.style.cursor = "pointer";
         buttonSubmit.disabled = false;
         buttonSubmit.style.backgroundColor = "#1D6154";
-    } else {
-        buttonSubmit.style.cursor = "auto";
-        buttonSubmit.disabled = true;
-        buttonSubmit.style.backgroundColor = "#A7A7A7";
     }
 }
 

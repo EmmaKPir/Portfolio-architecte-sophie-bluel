@@ -272,11 +272,11 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+.validation-contact {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color: #A7A7A7;
+	background-color: #1D6154;
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
@@ -440,8 +440,8 @@ form button:hover {
 	cursor: pointer;
 }
 
-.fa-trash-can i {
-	display: flex;
+i.fa-solid {
+	display: flex
 }
 
 .fa-up-down-left-right {
@@ -453,7 +453,7 @@ form button:hover {
 	width: 19px;
 	height: 21px;
 	top: 5%;
-	right: 20%;
+	right: 24%;
 	background: #000;
 	border-radius: 2px;
 	cursor: pointer;
@@ -573,7 +573,7 @@ form button:hover {
 }
 
 .validation-modal2 {
-	color: #A7A7A7;
+	color: #FFF;
 	text-align: center;
 	font-family: Work Sans;
 	font-size: 14px;
