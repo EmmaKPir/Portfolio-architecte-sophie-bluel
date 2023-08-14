@@ -10,7 +10,7 @@ const previewText = document.querySelector(".preview-p");
 const previewLabel = document.querySelector(".preview-label");
 const containerDelete = document.querySelector(".delete-picture");
 const inputFile = document.getElementById("btn-add");
-const image = document.querySelector("preview-picture");
+const image = document.querySelector(".preview-picture");
 const title = document.getElementById("title");
 const category = document.getElementById("liste-cat");
 const buttonSubmit = document.getElementById("submit-button");
@@ -175,7 +175,6 @@ function addFilters() {
     categoryList.appendChild(buttonAll);
     for (const category of allCategories) {
         const oneButton = document.createElement("div");
-        oneButton.classList.add("active");
         oneButton.classList.add("filter-button");
         oneButton.setAttribute("data-cat", category.id);
         oneButton.textContent = category.name === "Objets" ? "Objets" : category.name;
@@ -406,6 +405,9 @@ function checkForm() {
 function addNewPicture() {
     formulaire.addEventListener("submit", async(e) => {
         e.preventDefault();
+        formData.delete("image");
+        formData.delete("title");
+        formData.delete("category");
         formData.append("image", inputFile.files[0]);
         formData.append("title", title.value);
         formData.append("category", category.value);
@@ -423,4 +425,12 @@ function deleteForm() {
     title.value = "";
     category.value = 0;
     inputFile.value = null;
+    const image = document.querySelector(".preview-picture");
+    if (image) {
+        image.remove();
+        containerPreviewImage.classList.toggle("hidden");
+        previewText.classList.toggle("hidden");
+        previewLabel.classList.toggle("hidden");
+        containerDelete.classList.toggle("active");
+    }
 }

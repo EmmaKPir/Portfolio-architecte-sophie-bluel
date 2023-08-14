@@ -34,15 +34,15 @@
 			<form action="#" method="post" enctype="multipart/form-data" id="formulaire">
 				<div class="add-img">
 					<i class="fa-solid fa-xmark delete-picture"></i>
-					<input type="image" id="preview" class="container-img" alt="pattern" src="./assets/icons/picture-svgrepo-com 1.svg">
+					<input type="image" id="preview" class="container-img" alt="pattern" src="./assets/icons/picture-svgrepo-com%201.svg">
 					<label for="btn-add" class="preview-label">+ Ajouter photo</label>
-					<input type="file" id="btn-add" name="btn-add" accept=".jpg, .png" maxlength="4000000" required>
+					<input type="file" id="btn-add" name="btn-add" accept=".jpg, .png" required>
 					<p class="preview-p">jpg, png : 4mo max</p>
 				</div>
 				<label for="title">Titre</label>
 				<input type="text" name="title" class="input-modal2" id="title" required>
-				<label for="Cat-form">Catégorie</label>
-				<select type="categorie-liste" name="Cat-form" class="input-modal2" id="liste-cat" required></select>
+				<label for="liste-cat">Catégorie</label>
+				<select name="liste-cat" class="input-modal2" id="liste-cat"></select>
 				<div class="underline-modal2"></div>
 				<input type="submit" value="Valider" class="validation-modal2" id="submit-button" disabled>
 			</form>
@@ -65,7 +65,7 @@
 		</nav>
 	</header>
 	<main>
-		<section id="introduction">
+		<div id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
 				<div class="edit-btn1">
@@ -87,7 +87,7 @@
 				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
 					décorateur(trice)</p>
 			</article>
-		</section>
+		</div>
 		<section id="portfolio">
 			<div class="edit-btn2 modal-trigger">
 				<h2>Mes Projets</h2>

@@ -440,6 +440,10 @@ form button:hover {
 	cursor: pointer;
 }
 
+.fa-trash-can i {
+	display: flex;
+}
+
 .fa-up-down-left-right {
 	display: flex;
 	justify-content: center;
@@ -473,7 +477,6 @@ form button:hover {
 .edit {
 	font-size: 16px;
 	color: #000;
-	padding: auto;
 }
 
 .underline {
